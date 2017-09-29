@@ -2495,10 +2495,7 @@ static void lcm_udelay(UINT32 us)
 
 static void lcm_mdelay(UINT32 ms)
 {
-	if (ms < 2)
-		udelay(ms * 1000);	/* udelay set max value 2000us=2ms */
-	else
-		mdelay(ms);
+	udelay(ms*600);
 }
 
 
