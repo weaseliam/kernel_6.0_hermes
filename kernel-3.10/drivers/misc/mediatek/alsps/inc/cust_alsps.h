@@ -3,7 +3,7 @@
 
 #include <linux/types.h>
 
-#define C_CUST_ALS_LEVEL    18
+#define C_CUST_ALS_LEVEL    16
 #define C_CUST_I2C_ADDR_NUM 4
 
 #define MAX_THRESHOLD_HIGH 0xffff
@@ -37,6 +37,7 @@ struct alsps_hw {
 };
 
 extern struct alsps_hw* get_cust_alsps_hw(void);
+extern struct alsps_hw* ltr559_get_cust_alsps_hw(void);
 
  struct alsps_hw* get_alsps_dts_func(const char *, struct alsps_hw*);
 __weak int pmic_ldo_suspend_enable(int enable);
