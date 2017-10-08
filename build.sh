@@ -12,21 +12,20 @@ mkdir -p $TOP/KERNEL_OBJ
 make -C kernel-3.10 O=$TOP/KERNEL_OBJ ARCH=arm64 MTK_TARGET_PROJECT=hermes TARGET_BUILD_VARIANT=user CROSS_COMPILE=$TOOLCHAIN ROOTDIR=$TOP hermes_defconfig
 make -C kernel-3.10 O=$TOP/KERNEL_OBJ ROOTDIR=$TOP
 
-# extract prebuilt ramdisk
-if [ ! -e "$TOP/prebuilt/bootimg.cfg" ];
-then
-    cd $TOP/prebuilt
-    abootimg -x boot.img
-    sed -i '/bootsize =/d' bootimg.cfg
-    cd $TOP
-fi
-
-# create boot img with kernel and ramdisk
+# clear output folder
 mkdir -p $TOP/out
 rm -rf $TOP/out/*
-$TOP/mkimage $TOP/KERNEL_OBJ/arch/arm64/boot/Image.gz-dtb KERNEL > $TOP/out/zImage
-abootimg --create $TOP/out/boot.img -f $TOP/prebuilt/bootimg.cfg -k $TOP/out/zImage -r $TOP/prebuilt/initrd.img
+
+# pack kernel
+$TOP/tools/mkimage $TOP/KERNEL_OBJ/arch/arm64/boot/Image.gz-dtb KERNEL > $TOP/out/zImage
+echo "Kernel: $TOP/out/zImage"
+
+# pack ramdisk
+$TOP/tools/repack_ramdisk $TOP/ramdisk out/initrd.img
+echo "Ramdisk: $TOP/out/initrd.img"
+
+# pack boot.img
+$TOP/tools/abootimg --create $TOP/out/boot.img -f $TOP/bootimg.cfg -k $TOP/out/zImage -r $TOP/out/initrd.img
 
 # done
-echo "Output folder: $TOP/out"
-
+echo "boot.img to be flashed: $TOP/out/boot.img"

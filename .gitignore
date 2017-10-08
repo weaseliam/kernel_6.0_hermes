@@ -1,6 +1,2 @@
-prebuilt/bootimg.cfg
-prebuilt/initrd.img
-prebuilt/zImage
 KERNEL_OBJ/
 out/
-

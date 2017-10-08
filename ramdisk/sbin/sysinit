@@ -1,0 +1,23 @@
+#!/system/bin/sh
+
+# mount partitions rw to apply tweaks and settings
+mount -o remount,rw /;
+mount -o remount,rw /system
+sleep 1
+
+# make init.d folder if it doesn't exist
+mkdir /system/etc/init.d
+sleep 1
+chown -R root:root /system/etc/init.d
+chmod -R 0755 /system/etc/init.d
+sleep 1
+
+# run scripts in init.d folder
+for FILE in /system/etc/init.d/*; do
+sleep 1
+sh $FILE >/dev/null
+done;
+
+# remount partitions ro once finished
+mount -o remount,ro /;
+mount -o remount,ro /system
