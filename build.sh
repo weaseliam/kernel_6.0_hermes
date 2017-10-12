@@ -22,6 +22,7 @@ echo "Kernel: $TOP/out/zImage"
 
 # pack ramdisk
 $TOP/prepare-ramdisk.sh
+chmod 750 $TOP/ramdisk/init
 $TOP/tools/repack_ramdisk $TOP/ramdisk out/initrd.img
 echo "Ramdisk: $TOP/out/initrd.img"
 
