@@ -20,12 +20,8 @@ rm -rf $TOP/out/*
 $TOP/tools/mkimage $TOP/KERNEL_OBJ/arch/arm64/boot/Image.gz-dtb KERNEL > $TOP/out/zImage
 echo "Kernel: $TOP/out/zImage"
 
-# unpack ramdisk
-rm -rf $TOP/ramdisk
-$TOP/tools/unpack_ramdisk ramdisk.img
-cp -R $TOP/ramdisk-files/* $TOP/ramdisk
-
-# repack ramdisk
+# pack ramdisk
+$TOP/prepare-ramdisk.sh
 $TOP/tools/repack_ramdisk $TOP/ramdisk out/initrd.img
 echo "Ramdisk: $TOP/out/initrd.img"
 
