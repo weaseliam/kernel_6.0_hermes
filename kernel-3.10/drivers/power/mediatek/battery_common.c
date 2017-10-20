@@ -378,8 +378,7 @@ kal_bool upmu_is_chr_det(void)
 	/* return KAL_TRUE; */
 	return get_charger_detect_status();
 #else
-        if (suspend_discharging==1)
-        return KAL_FALSE;
+    if (suspend_discharging==1) return KAL_FALSE;
 
 	tmp32 = get_charger_detect_status();
 
@@ -389,6 +388,8 @@ kal_bool upmu_is_chr_det(void)
 #endif
 
 	if (tmp32 == 0) {
+		battery_log(BAT_LOG_FULL,
+					    "[upmu_is_chr_det] Smosia: get_charger_detect_status return 0\n");
 		return KAL_FALSE;
 	} else {
 		#if !defined(CONFIG_MTK_DUAL_INPUT_CHARGER_SUPPORT)
@@ -557,7 +558,6 @@ static int usb_get_property(struct power_supply *psy,
 
 extern int g_cw2015_capacity ;
 extern int g_cw2015_vol ;
-extern int cw2015_read_temp(void);
 static int battery_get_property(struct power_supply *psy,
 				enum power_supply_property psp, union power_supply_propval *val)
 {
@@ -578,9 +578,9 @@ static int battery_get_property(struct power_supply *psy,
 		val->intval = data->BAT_TECHNOLOGY;
 		break;
 	case POWER_SUPPLY_PROP_CAPACITY:
-		val->intval = data->BAT_CAPACITY;
-		//val->intval =g_cw2015_capacity;//cw2015_get_capacity();
-		//if(val->intval ==0 && BMT_status.charger_exist==KAL_TRUE) val->intval =1;
+		//val->intval = data->BAT_CAPACITY;
+		val->intval =g_cw2015_capacity;//cw2015_get_capacity();
+		if(val->intval ==0 && BMT_status.charger_exist==KAL_TRUE) val->intval =1;
 		break;
 	case POWER_SUPPLY_PROP_batt_vol:
 		//val->intval = data->BAT_batt_vol;
@@ -588,7 +588,6 @@ static int battery_get_property(struct power_supply *psy,
 		break;
 	case POWER_SUPPLY_PROP_batt_temp:
 		val->intval = data->BAT_batt_temp;
-                //val->intval = cw2015_read_temp();//data->BAT_batt_temp;
 		break;
 	case POWER_SUPPLY_PROP_TemperatureR:
 		val->intval = data->BAT_TemperatureR;
@@ -1555,8 +1554,9 @@ static DEVICE_ATTR(Pump_Express, 0664, show_Pump_Express, store_Pump_Express);
 static void mt_battery_update_EM(struct battery_data *bat_data)
 {
 	bat_data->BAT_CAPACITY = BMT_status.UI_SOC;
+
 	//-------------add lifei---------------------
-	//if(BMT_status.charger_exist == KAL_TRUE  && BMT_status.UI_SOC ==0)bat_data->BAT_CAPACITY =1;
+	if(BMT_status.charger_exist == KAL_TRUE  && BMT_status.UI_SOC ==0)bat_data->BAT_CAPACITY =1;
 	//----------------------------------------	
 	bat_data->BAT_TemperatureR = BMT_status.temperatureR;	/* API */
 	bat_data->BAT_TempBattVoltage = BMT_status.temperatureV;	/* API */
