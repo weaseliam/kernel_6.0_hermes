@@ -28,7 +28,6 @@ struct cw_bat_platform_data {
         int chg_ok_level;
         u8* cw_bat_config_info;
 };
-
-
-
+extern int g_cw2015_capacity;
+extern int g_cw2015_vol;
 #endif

@@ -40,6 +40,9 @@
 #include <mach/upmu_common.h>
 
 
+#if defined(CONFIG_RGK_DRIVER_FG_CW2015)
+#include <mach/cw2015_battery.h>
+#endif
 /* ============================================================ // */
 /* define */
 /* ============================================================ // */
@@ -2830,6 +2833,7 @@ kal_int32 battery_meter_set_columb_interrupt(kal_uint32 val)
 
 kal_int32 battery_meter_get_battery_percentage(void)
 {
+#if 0
 #if defined(CONFIG_POWER_EXT)
 	return 50;
 #else
@@ -2873,6 +2877,9 @@ kal_int32 battery_meter_get_battery_percentage(void)
 #endif
 #endif
 
+#endif
+#else
+	return g_cw2015_capacity;
 #endif
 }
 
