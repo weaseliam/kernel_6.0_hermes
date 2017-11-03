@@ -117,7 +117,7 @@ static void hmi_get_battery_version(void)
 { 
     int i; 
     printk("12345 %s\n", saved_command_line); 
-    printk("12345 %d\n", strstr(saved_command_line, "batversion=")); 
+    printk("12345 %s\n", strstr(saved_command_line, "batversion=")); 
     i = simple_strtol(strstr(saved_command_line, "batversion=")+11, 0, 10); 
     liuchao_test_hmi_battery_version = i; //COS = 1, DES = 2 
     printk("liuchao_test_hmi_battery_version %d\n", liuchao_test_hmi_battery_version); 
