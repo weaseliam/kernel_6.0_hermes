@@ -2499,7 +2499,7 @@ static void mt_battery_notify_VBat_check(void)
 		/* if(BMT_status.bat_vol > 3800) //test */
 	{
 		g_BatteryNotifyCode |= 0x0008;
-		battery_log(BAT_LOG_CRTI, "[BATTERY] bat_vlot(%ld) > 4350mV\n",
+		battery_log(BAT_LOG_CRTI, "[BATTERY] bat_vlot(%d) > 4350mV\n",
 				    BMT_status.bat_vol);
 	} else {
 		g_BatteryNotifyCode &= ~(0x0008);
@@ -3719,13 +3719,7 @@ static int battery_probe(struct platform_device *dev)
 		battery_main.BAT_PRESENT = 1;
 		battery_main.BAT_TECHNOLOGY = POWER_SUPPLY_TECHNOLOGY_LION;
 		battery_main.BAT_CAPACITY = 100;
-<<<<<<< HEAD
-		battery_main.BAT_batt_vol = 4200000;
-||||||| merged common ancestors
-		battery_main.BAT_batt_vol = 4200;
-=======
 		battery_main.BAT_batt_vol = 4442;
->>>>>>> upstream/master
 		battery_main.BAT_batt_temp = 220;
 
 		g_bat_init_flag = KAL_TRUE;
